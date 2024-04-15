@@ -1,8 +1,9 @@
-import { Body, Controller, Post, Req, UploadedFile, UseInterceptors } from '@nestjs/common';
-import { UploadService } from './upload.service';
+import { Body, Controller, FileTypeValidator, MaxFileSizeValidator, ParseFilePipe, Post, Req, UploadedFile, UseInterceptors } from '@nestjs/common';
+import { UploadService } from './upload-service/upload.service';
 import { FileInterceptor } from "@nestjs/platform-express"
-import { ApiConsumes } from '@nestjs/swagger';
-import { Request } from 'express';
+import { ApiBody, ApiConsumes } from '@nestjs/swagger';
+import { createReadStream, createWriteStream } from 'fs';
+import { join } from 'path';
 @Controller('projects')
 export class UploadController {
   constructor(private readonly uploadService: UploadService) { }
@@ -10,20 +11,22 @@ export class UploadController {
 
   @Post()
   @ApiConsumes('multipart/form-data')
+  @ApiBody({
+    schema: {
+      type: 'object',
+      properties: {
+        // comment: { type: 'string' },
+        // outletId: { type: 'integer' },
+        file: {
+          type: 'string',
+          format: 'binary',
+        },
+      },
+    },
+  })
   @UseInterceptors(FileInterceptor('file'))
   async uploadProject(@UploadedFile() file: Express.Multer.File) {
-    console.log(file)
-    /*
-    {
-  fieldname: 'file',
-  originalname: 'Unidade de USB (F) 
-- Atalho.lnk.STL',
-  encoding: '7bit',
-  mimetype: 'application/octet-stream',
-  buffer: <Buffer 73 6f 6c 69 64 20 ...
-  size: 48584
-}
-    */
+    console.log(file);
 
   }
 
