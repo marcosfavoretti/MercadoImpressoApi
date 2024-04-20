@@ -1,19 +1,18 @@
 import { IsEmail, IsString, ValidateNested } from "class-validator"
 import { Type } from "class-transformer"
 import { CreateEnderecoDto } from "src/endereco/dto/createEndereco.dto"
+import { ApiProperty } from "@nestjs/swagger"
 export class CreateUserDto {
+    @ApiProperty()
     @IsString()
     nome: string
+    @ApiProperty()
     @IsEmail()
     email: string
+    @ApiProperty()
     @IsString()
     senha: string
-    @IsString()
-    rua: string
-    @IsString()
-    bairro: string
-    @IsString()
-    numero: number
+    @ApiProperty()
     @ValidateNested()
     @Type(() => CreateEnderecoDto)
     endereco: CreateEnderecoDto

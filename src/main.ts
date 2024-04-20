@@ -5,15 +5,12 @@ import { UploadModule } from './upload/upload.module';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const option = new DocumentBuilder()
-    .setTitle('TESTE')
-    .setDescription("teste para ver funcionamento")
+    .setTitle('Mercado Impresso')
+    .setDescription("mercado Impresso API")
     .setVersion("1.0")
-    .addTag('teste')
     .build()
   app.enableCors()
-  const doc = SwaggerModule.createDocument(app, option, {
-    include: [AppModule, UploadModule]
-  })
+  const doc = SwaggerModule.createDocument(app, option)
   SwaggerModule.setup('api/doc', app, doc)
   await app.listen(3000);
 }

@@ -1,4 +1,4 @@
-import { Body, Controller, FileTypeValidator, MaxFileSizeValidator, ParseFilePipe, Post, Req, UploadedFile, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, FileTypeValidator, HttpStatus, MaxFileSizeValidator, ParseFilePipe, ParseFilePipeBuilder, Post, Req, UploadedFile, UseInterceptors } from '@nestjs/common';
 import { UploadService } from './upload-service/upload.service';
 import { FileInterceptor } from "@nestjs/platform-express"
 import { ApiBody, ApiConsumes } from '@nestjs/swagger';
@@ -25,9 +25,21 @@ export class UploadController {
     },
   })
   @UseInterceptors(FileInterceptor('file'))
-  async uploadProject(@UploadedFile() file: Express.Multer.File) {
-    console.log(file);
-
+  async uploadProject(@UploadedFile(
+    new ParseFilePipeBuilder()
+      .addFileTypeValidator({
+        fileType: 'application/octet-stream', //validação se o arquivo é um stl
+      })
+      // .addMaxSizeValidator({
+      //   maxSize: 1000
+      // })
+      .build({
+        errorHttpStatusCode: HttpStatus.UNPROCESSABLE_ENTITY//reponse de erro quando algo nao for certo
+      }),
+  )
+  file: Express.Multer.File,) {
+    const buffer = Buffer.from(await file.buffer);
+    
   }
 
 }
