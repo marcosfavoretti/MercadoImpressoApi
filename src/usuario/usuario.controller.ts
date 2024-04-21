@@ -16,9 +16,9 @@ export class UsuarioController {
     }
     @ApiConsumes()
     @Post('/validate')
-    async auth(@Body() authdto: authDto, @Res() res: Response) {
+    async auth(@Body() authdto: authDto, @Res({ passthrough: true }) response: Response) {
         const token = await this.usuarioService.auth(authdto)
-        res.cookie('uid', token)
-        return token
+        // res.cookie('token', token, {expires: new Date(Date.now() + 43200000), httpOnly: true}).status(200).send({token: token});
+        response.cookie('uid', token, {expires: new Date(Date.now() + 43200000), httpOnly: true}).status(200).send(token)
     }
 }

@@ -12,4 +12,6 @@ export class Material {
     cor: string
     @Column()
     preco: number
+    @Column()
+    densidade: number
 }

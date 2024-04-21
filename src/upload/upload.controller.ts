@@ -31,15 +31,14 @@ export class UploadController {
         fileType: 'application/octet-stream', //validação se o arquivo é um stl
       })
       // .addMaxSizeValidator({
-      //   maxSize: 1000
+      //   maxSize: 10000
       // })
       .build({
         errorHttpStatusCode: HttpStatus.UNPROCESSABLE_ENTITY//reponse de erro quando algo nao for certo
       }),
   )
   file: Express.Multer.File,) {
-    const buffer = Buffer.from(await file.buffer);
-    
+    const buffer = Buffer.from(await file.buffer); 
   }
 
 }
