@@ -14,6 +14,7 @@ import { Endereco } from './endereco/Entities/Endereco.entity';
 import { PriceCalcModule } from './price-calc/price-calc.module';
 import { MaterialModule } from './material/material.module';
 require('dotenv').config()
+
 @Module({
   imports: [UploadModule, CustomProjectsModule, TokenAuthModule, TypeOrmModule.forRoot({
     type: "mysql",
@@ -31,6 +32,7 @@ require('dotenv').config()
 export class AppModule implements OnModuleInit {
 
   onModuleInit() {
+
     console.log(`
    _____         .__                                  
   /  _  \\ ______ |__|                                 
