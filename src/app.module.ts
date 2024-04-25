@@ -15,7 +15,7 @@ import { PriceCalcModule } from './price-calc/price-calc.module';
 import { MaterialModule } from './material/material.module';
 require('dotenv').config()
 @Module({
-  imports: [UploadModule, CustomProjectsModule, TypeOrmModule.forRoot({
+  imports: [UploadModule, CustomProjectsModule, TokenAuthModule, TypeOrmModule.forRoot({
     type: "mysql",
     username: process.env.bd_usuario,
     password: process.env.bd_pass,

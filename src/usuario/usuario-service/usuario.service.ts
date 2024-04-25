@@ -3,7 +3,7 @@ import { CreateUserDto } from '../dto/createUser.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Usuario } from '../Entities/Usuario.entity';
 import { Repository } from 'typeorm';
-import { authDto } from '../dto/auth.dto';
+import { AuthDto } from '../dto/auth.dto';
 import { TokenAuthModule } from 'src/token-auth/token-auth.module';
 import { TokenService } from 'src/token-auth/token-service/token.service';
 
@@ -16,7 +16,7 @@ export class UsuarioService {
         })
     }
 
-    async auth(auth: authDto) {
+    async auth(auth: AuthDto) {
         const usuario = await this.usuario.findOne({
             where: {
                 nome: auth.nome,
