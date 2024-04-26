@@ -19,8 +19,6 @@ export class UploadController {
     schema: {
       type: 'object',
       properties: {
-        // comment: { type: 'string' },
-        // outletId: { type: 'integer' },
         file: {
           type: 'string',
           format: 'binary',
@@ -30,7 +28,7 @@ export class UploadController {
   })
   @UseInterceptors(FileInterceptor('file', {
     storage: diskStorage({
-      destination: (req: any, file: any, cb: any) => {
+      destination: (req, file, cb) => {
         const uploadPath = process.env.upload_location
         if (!existsSync(uploadPath)) {
           mkdirSync(uploadPath)
@@ -56,23 +54,9 @@ export class UploadController {
       }),
   )
   file: Express.Multer.File, @Req() request: Request) {
-    // console.log(request.cookies)
-    // console.log(request.headers)
-    const path = file.path
     await this.uploadService.cadastraModeloPersonalizado(file, {
       ...JSON.parse(request.headers['user'] as string)
     })
-
-    // { pattern do obj Multer.File
-    //   fieldname: 'file',
-    //     originalname: 'Unidade de USB (F) - Atalho.lnk.STL',
-    //       encoding: '7bit',
-    //         mimetype: 'application/octet-stream',
-    //           destination: 'C:/Users/marco/OneDrive/Documentos/3DPrinterEcommerceBackend/upload',
-    //             filename: '2c547355-0c2f-4b0b-891d-cd9f0f849a27.STL',
-    //               path: 'C:\\Users\\marco\\OneDrive\\Documentos\\3DPrinterEcommerceBackend\\upload\\2c547355-0c2f-4b0b-891d-cd9f0f849a27.STL',
-    //                 size: 48584
-    // }
   }
 
 }
