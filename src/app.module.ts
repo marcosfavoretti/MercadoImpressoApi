@@ -1,7 +1,6 @@
 import { Module, OnModuleInit } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { UploadModule } from './upload/upload.module';
 import { CustomProjectsModule } from './custom-projects/custom-projects.module';
 import { TypeOrmModule } from "@nestjs/typeorm"
 import { ProdutoPersonalizadoModule } from './produto_personalizado/produto_personalizado.module';
@@ -18,7 +17,7 @@ import { Produto_personalizadoController } from './produto_personalizado/produto
 require('dotenv').config()
 
 @Module({
-  imports: [UploadModule, CustomProjectsModule, TokenAuthModule, 
+  imports: [ CustomProjectsModule, TokenAuthModule, 
     ServeStaticModule.forRoot({
       rootPath: process.env.upload_location,
     }),
