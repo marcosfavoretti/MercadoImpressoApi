@@ -9,8 +9,16 @@ export class TokenService {
     generateToken(usuario: Usuario) {
         return jwt.sign(JSON.stringify(usuario), process.env.auth_key)
     }
-    decodeToken(token: string) {
-        const decode = jwt.verify(token, process.env.auth_key);
-        return decode
+    async decodeToken(token: string) {
+        return await new Promise<Usuario | undefined>((resolve, reject)=>{
+            try{
+                const decode = jwt.verify(token, process.env.auth_key);
+            resolve(decode)
+            }
+            catch(err){
+                resolve(undefined)
+            }
+
+        }) 
     }
 }

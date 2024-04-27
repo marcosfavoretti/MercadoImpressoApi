@@ -5,10 +5,11 @@ import { AuthDto } from './dto/auth.dto';
 import { ApiConsumes } from '@nestjs/swagger';
 import { Request, Response } from 'express';
 import { AuthGuard } from 'src/guard/auth/auth.guard';
+import { TokenService } from 'src/token-auth/token-service/token.service';
 
 @Controller('usuario')
 export class UsuarioController {
-    constructor(private usuarioService: UsuarioService) { }
+    constructor(private usuarioService: UsuarioService, private token: TokenService) { }
     //crud de usuarios
     @ApiConsumes()
     @Post('/create')
@@ -23,12 +24,12 @@ export class UsuarioController {
         res.cookie('token', token, { expires: new Date(Date.now() + 43200000), httpOnly: true }).status(200).send(token)
     }
 
-    @UseGuards(AuthGuard)
     @ApiConsumes()
     @Get('/userinfos')
-    async getUserInfos(@Req() req: Request) {
-        const user = JSON.parse(req.headers['user'] as string)
+    async getUserInfos(@Req() req: Request, @Res() res: Response) {
+        const user = await this.token.decodeToken(req.cookies.token)
+        if(!user) res.status(200).send(user)
         delete user.senha
-        return user
+        return res.status(200).send(user)
     }
 }

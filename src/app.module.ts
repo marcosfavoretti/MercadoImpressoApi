@@ -13,10 +13,16 @@ import { TokenAuthModule } from './token-auth/token-auth.module';
 import { Endereco } from './endereco/Entities/Endereco.entity';
 import { PriceCalcModule } from './price-calc/price-calc.module';
 import { MaterialModule } from './material/material.module';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { Produto_personalizadoController } from './produto_personalizado/produto_personalizado.controller';
 require('dotenv').config()
 
 @Module({
-  imports: [UploadModule, CustomProjectsModule, TokenAuthModule, TypeOrmModule.forRoot({
+  imports: [UploadModule, CustomProjectsModule, TokenAuthModule, 
+    ServeStaticModule.forRoot({
+      rootPath: process.env.upload_location,
+    }),
+    TypeOrmModule.forRoot({
     type: "mysql",
     username: process.env.bd_usuario,
     password: process.env.bd_pass,
@@ -26,7 +32,7 @@ require('dotenv').config()
     synchronize: false,
     entities: [Usuario, Endereco, Produto_personalizado]
   }), ProdutoPersonalizadoModule, UsuarioModule, EnderecoModule, TokenAuthModule, PriceCalcModule, MaterialModule],
-  controllers: [AppController],
+  controllers: [AppController, Produto_personalizadoController],
   providers: [AppService],
 })
 export class AppModule implements OnModuleInit {
