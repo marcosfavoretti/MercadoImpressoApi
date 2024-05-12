@@ -4,13 +4,14 @@ import { ApiBody, ApiConsumes } from '@nestjs/swagger';
 import { existsSync, mkdirSync } from 'fs';
 import { v4 as uuid } from 'uuid';
 import { diskStorage } from 'multer';
-import { extname } from 'path';
+import { extname, resolve } from 'path';
 import { Request } from 'express';
 import { AuthGuard } from '../guard/auth/auth.guard';
 import { ProdutoPersonalizadoService } from './produto_personalizado-service/produto_personalizado/produto_personalizado.service';
 import { PriceCalculatorService } from 'src/price-calc/price-calculator-service/price-calculator.service';
 import { CustomProdutoPersonalizadoDto } from './dto/customProdutoPersonalizadoDto';
-
+const resolvePath = require('resolve-path')
+ 
 @UseGuards(AuthGuard)
 @Controller("produtopersonalizado")
 export class Produto_personalizadoController {
@@ -18,7 +19,7 @@ export class Produto_personalizadoController {
       private produtoPersonalizadoService: ProdutoPersonalizadoService,
       private priceCalculatorService: PriceCalculatorService){}
   
-    @Post('newmodel')
+  @Post('newmodel')
   @ApiConsumes('multipart/form-data')
   @ApiBody({
     schema: {
@@ -34,7 +35,8 @@ export class Produto_personalizadoController {
   @UseInterceptors(FileInterceptor('file', {
     storage: diskStorage({
       destination: (req, file, cb) => {
-        const uploadPath = process.env.upload_location
+        const uploadPath = resolve(__dirname, '../upload'); 
+        console.log(uploadPath)
         if (!existsSync(uploadPath)) {
           mkdirSync(uploadPath)
         }
