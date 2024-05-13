@@ -1,4 +1,4 @@
-import {  Controller, HttpStatus, Get, ParseFilePipeBuilder, Post, Req, UploadedFile, UseGuards, UseInterceptors, Delete, Body } from '@nestjs/common';
+import { Controller, HttpStatus, Get, ParseFilePipeBuilder, Post, Req, UploadedFile, UseGuards, UseInterceptors, Delete, Body } from '@nestjs/common';
 import { FileInterceptor } from "@nestjs/platform-express"
 import { ApiBody, ApiConsumes } from '@nestjs/swagger';
 import { existsSync, mkdirSync } from 'fs';
@@ -10,15 +10,14 @@ import { AuthGuard } from '../guard/auth/auth.guard';
 import { ProdutoPersonalizadoService } from './produto_personalizado-service/produto_personalizado/produto_personalizado.service';
 import { PriceCalculatorService } from 'src/price-calc/price-calculator-service/price-calculator.service';
 import { CustomProdutoPersonalizadoDto } from './dto/customProdutoPersonalizadoDto';
-const resolvePath = require('resolve-path')
- 
+
 @UseGuards(AuthGuard)
 @Controller("produtopersonalizado")
 export class Produto_personalizadoController {
-    constructor( 
-      private produtoPersonalizadoService: ProdutoPersonalizadoService,
-      private priceCalculatorService: PriceCalculatorService){}
-  
+  constructor(
+    private produtoPersonalizadoService: ProdutoPersonalizadoService,
+    private priceCalculatorService: PriceCalculatorService) { }
+
   @Post('newmodel')
   @ApiConsumes('multipart/form-data')
   @ApiBody({
@@ -35,8 +34,7 @@ export class Produto_personalizadoController {
   @UseInterceptors(FileInterceptor('file', {
     storage: diskStorage({
       destination: (req, file, cb) => {
-        const uploadPath = resolve(__dirname, '../upload'); 
-        console.log(uploadPath)
+        const uploadPath = resolve(__dirname, './Uploads');
         if (!existsSync(uploadPath)) {
           mkdirSync(uploadPath)
         }
@@ -59,31 +57,31 @@ export class Produto_personalizadoController {
         errorHttpStatusCode: HttpStatus.UNPROCESSABLE_ENTITY//reponse de erro quando algo nao for certo
       }),
   )
-//  
+  //  
   file: Express.Multer.File, @Req() request: Request) {
     await this.produtoPersonalizadoService.createProdutoPersonalizado({
-        userId: JSON.parse(request.headers['user'] as string),
-        area_superficie: this.produtoPersonalizadoService.getProdutoArea(file),
-        volume: this.produtoPersonalizadoService.getProdutoVolume(file),
-        modelo3d: file.path,
-        nome: file.originalname
+      userId: JSON.parse(request.headers['user'] as string),
+      area_superficie: this.produtoPersonalizadoService.getProdutoArea(file),
+      volume: this.produtoPersonalizadoService.getProdutoVolume(file),
+      modelo3d: file.path,
+      nome: file.originalname
     })
   }
 
   @Delete('deleteProjeto')
-  async deleteModeloCadastrado(@Req() request: Request){
+  async deleteModeloCadastrado(@Req() request: Request) {
     return this.produtoPersonalizadoService.deleteModelobyUser(JSON.parse(request.headers['user'] as string))
 
   }
   @Get('getProjeto')
-  async getModeloCadastrado(@Req() request: Request){
-        return this.produtoPersonalizadoService.getModelobyUser(JSON.parse(request.headers['user'] as string))
+  async getModeloCadastrado(@Req() request: Request) {
+    return this.produtoPersonalizadoService.getModelobyUser(JSON.parse(request.headers['user'] as string))
   }
 
   @Post('pricecalculator')
-  async calculatePrice(@Req() request: Request, @Body() custom: CustomProdutoPersonalizadoDto){
+  async calculatePrice(@Req() request: Request, @Body() custom: CustomProdutoPersonalizadoDto) {
     const projeto = await this.produtoPersonalizadoService.getModelobyUser(JSON.parse(request.headers['user'] as string))
     return this.priceCalculatorService.calculatePrice(custom, projeto)
   }
 
- }
+}

@@ -7,9 +7,6 @@ const NodeStl = require("node-stl");
 export class PriceCalculatorService {
 
     calculatePrice(custom: CustomProdutoPersonalizadoDto, projeto: Produto_personalizado){
-        console.log(custom, projeto)
-
-
         const stlInfos = new NodeStl(projeto.modelo3d, { density: custom.material.densidade})
         const precoFilamento = this.calcPrecoFilamento2gramas(custom.material.preco)
         const fullPeso = stlInfos.weight

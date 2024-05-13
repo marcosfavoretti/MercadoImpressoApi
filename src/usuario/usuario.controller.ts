@@ -21,14 +21,14 @@ export class UsuarioController {
     @Post('/validate')
     async auth(@Body() authdto: AuthDto, @Res() res: Response) {
         const token = await this.usuarioService.authService(authdto)
-        res.cookie('token', token, { expires: new Date(Date.now() + 43200000), httpOnly: true }).status(200).send(token)
+        res.cookie('token', token, { expires: new Date(Date.now() + 43200000), httpOnly: true, sameSite: 'none', secure: true }).status(200).send(token)
     }
 
     @ApiConsumes()
     @Get('/userinfos')
     async getUserInfos(@Req() req: Request, @Res() res: Response) {
         const user = await this.token.decodeToken(req.cookies.token)
-        if(!user) res.status(200).send(user)
+        if (!user) res.status(200).send(user)
         delete user.senha
         return res.status(200).send(user)
     }

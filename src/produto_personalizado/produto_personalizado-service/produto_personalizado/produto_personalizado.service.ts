@@ -1,4 +1,4 @@
-import { Injectable , HttpException} from '@nestjs/common';
+import { Injectable, HttpException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Produto_personalizado } from 'src/produto_personalizado/Entities/Produto_personalizado.entity';
 import { CreateProdutoPersonalizadoDto } from 'src/produto_personalizado/dto/createProdutoPersonalizadoDto';
@@ -21,40 +21,38 @@ export class ProdutoPersonalizadoService {
         });
     }
 
-    async getModelobyUser(usuario: Usuario): Promise<Produto_personalizado | undefined>{
-        const modelo =await this.produtoPersonalizado.findOne({
-            where:{
+    async getModelobyUser(usuario: Usuario): Promise<Produto_personalizado | undefined> {
+        const modelo = await this.produtoPersonalizado.findOne({
+            where: {
                 UserId: usuario
             }
         })
-        if(!modelo) return modelo
-        modelo['remote_url'] =  this.setRemoteUrl(modelo.modelo3d)
+        if (!modelo) return modelo
+        modelo['remote_url'] = this.setRemoteUrl(modelo.modelo3d)
         return modelo
 
     }
-    
-    setRemoteUrl(localpath: string){
+
+    setRemoteUrl(localpath: string) {
         const projectFile = path.basename(localpath)
-        return `http://localhost:3000/${projectFile}`
+        return `https://mercadoimpressoapi.azurewebsites.net/${projectFile}`
     }
 
-    async deleteModelobyUser(usuario: Usuario){
+    async deleteModelobyUser(usuario: Usuario) {
         await this.produtoPersonalizado.delete({
-            UserId : usuario
+            UserId: usuario
         })
     }
 
 
-    getProdutoArea(file: Express.Multer.File):number{
+    getProdutoArea(file: Express.Multer.File): number {
 
-        const area=  new NodeStl(file.path, { density: 1.04 }).area;
-        console.log(area)
+        const area = new NodeStl(file.path, { density: 1.04 }).area;
         return area
     }
 
-    getProdutoVolume(file: Express.Multer.File): number{
-        const volume =  new NodeStl(file.path, { density: 1.04 }).volume;
-        console.log(volume)
+    getProdutoVolume(file: Express.Multer.File): number {
+        const volume = new NodeStl(file.path, { density: 1.04 }).volume;
         return volume
     }
 

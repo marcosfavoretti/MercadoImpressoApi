@@ -7,11 +7,11 @@ async function bootstrap() {
   const option = new DocumentBuilder()
     .setTitle('Mercado Impresso')
     .setDescription("mercado Impresso API")
-    .setVersion("1.0")
+    .setVersion("2.2")
     .build()
   app.enableCors({
     credentials: true,
-    origin: 'http://localhost:4200'
+    origin: '*'
   })
   app.use(cookieParser())
   const doc = SwaggerModule.createDocument(app, option)
