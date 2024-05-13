@@ -22,12 +22,12 @@ require('dotenv').config()
       rootPath: process.env.upload_location,
     }),
     TypeOrmModule.forRoot({
-    type: "mysql",
+    type: "mssql",
     username: process.env.bd_usuario,
     password: process.env.bd_pass,
     database: process.env.bd_database,
     host: process.env.bd_host,
-    port: 3306,
+    port: 1433,
     synchronize: false,
     entities: [Usuario, Endereco, Produto_personalizado]
   }), ProdutoPersonalizadoModule, UsuarioModule, EnderecoModule, TokenAuthModule, PriceCalcModule, MaterialModule],

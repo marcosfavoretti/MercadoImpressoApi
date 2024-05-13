@@ -16,7 +16,7 @@ export class UsuarioService {
         })
     }
 
-    async auth(auth: AuthDto) {
+    async authService(auth: AuthDto) {
         const usuario = await this.usuario.findOne({
             where: {
                 nome: auth.nome,

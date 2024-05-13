@@ -36,10 +36,12 @@
     "cookie-parser": "^1.4.6",
     "dotenv": "^16.4.5",
     "jsonwebtoken": "^9.0.2",
+    "mssql": "^10.0.2",
     "multer": "^1.4.5-lts.1",
     "mysql2": "^3.9.6",
     "node-stl": "^0.7.3",
     "reflect-metadata": "^0.1.13",
+    "resolve-path": "^1.4.0",
     "rxjs": "^7.8.1"
   },
   "devDependencies": {
