@@ -13,3 +13,5 @@ RUN npm install --only=productions
 COPY --from=build /app/dist ./dist
 COPY .env .
 CMD ["npm", "run", "start:prod"]
+
+
