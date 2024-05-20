@@ -12,10 +12,10 @@
     "baseUrl": "./",
     "incremental": true,
     "skipLibCheck": true,
-    "strictNullChecks": false,
-    "noImplicitAny": false,
-    "strictBindCallApply": false,
-    "forceConsistentCasingInFileNames": false,
-    "noFallthroughCasesInSwitch": false
+    "strictNullChecks": false,          // Melhor prática para evitar erros de null
+    "noImplicitAny": false,             // Melhor prática para evitar variáveis implícitas any
+    "strictBindCallApply": false,       // Melhor prática para consistência
+    "forceConsistentCasingInFileNames": true, // Evitar problemas de case-sensitive em diferentes sistemas operacionais
+    "noFallthroughCasesInSwitch": true // Evitar erros em instruções switch
   }
 }

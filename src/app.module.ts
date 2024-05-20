@@ -1,12 +1,10 @@
-import { DomainModule } from './_domain/domain.module';
-
-import { InfrastructureModule } from './_infrastructure/infrastructure.module';
+import { DomainModule } from './domain/domain.module';
+import { InfrastructureModule } from './infrastructure/infrastructure.module';
 import { ControllerModule } from './controllers/controller.module';
 import { Module, OnModuleInit } from '@nestjs/common';
 
 @Module({
   imports: [
-    
     InfrastructureModule,
     ControllerModule,
   ],

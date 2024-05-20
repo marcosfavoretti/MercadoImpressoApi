@@ -6,13 +6,12 @@ import { v4 as uuid } from 'uuid';
 import { diskStorage } from 'multer';
 import { extname, resolve } from 'path';
 import { Request } from 'express';
-import { AuthGuard } from 'src/_infrastructure/auth-gurad/auth.guard';
-import { CreateProdutoPersonalizadoDto } from 'src/_domain/dto/createProdutoPersonalizado.dto';
-import { CrateProdutoPersonalizadoUseCase } from 'src/_use-cases/produto_personalizado/createProdutoPersonalizado.usecase';
-import { PegaProdutoPersonalizadoUseCase } from 'src/_use-cases/produto_personalizado/pegarProdutoPersonalizado.useCase';
-import { DeletarProdutoPersonalizadoUseCase } from 'src/_use-cases/produto_personalizado/deletarProdutoPersonalizado.UseCase';
-import { CustomProdutoPersonalizadoDto } from 'src/_domain/dto/updateProdutoPersonalizado.dot';
-import { CalculateProdutoPersonalizadoUseCase } from 'src/_use-cases/produto_personalizado/calculateProdutoPersonalizado.UseCase';
+import { AuthGuard } from 'src/infrastructure/auth-gurad/auth.guard';
+import { CrateProdutoPersonalizadoUseCase } from 'src/use-cases/produto_personalizado/createProdutoPersonalizado.usecase';
+import { PegaProdutoPersonalizadoUseCase } from 'src/use-cases/produto_personalizado/pegarProdutoPersonalizado.useCase';
+import { DeletarProdutoPersonalizadoUseCase } from 'src/use-cases/produto_personalizado/deletarProdutoPersonalizado.UseCase';
+import { CustomProdutoPersonalizadoDto } from 'src/domain/dto/updateProdutoPersonalizado.dot';
+import { CalculateProdutoPersonalizadoUseCase } from 'src/use-cases/produto_personalizado/calculateProdutoPersonalizado.UseCase';
 
 
 @ApiTags('Produto Personalizado')
@@ -40,8 +39,8 @@ export class Produto_personalizadoController {
   @UseInterceptors(FileInterceptor('file', {
     storage: diskStorage({
       destination: (req, file, cb) => {
-        // const uploadPath = resolve(__dirname, './Uploads');
-        const uploadPath = process.env.upload_location;
+        const uploadPath = resolve(__dirname, './Uploads');
+        // const uploadPath = process.env.upload_location;
 
         if (!existsSync(uploadPath)) {
           mkdirSync(uploadPath)
