@@ -1,6 +1,6 @@
 import { TypeOrmModule } from "@nestjs/typeorm"
 import { ServeStaticModule } from '@nestjs/serve-static';
-import { resolve } from 'path';
+import * as path from 'path';
 import { AuthGuard } from "./auth-gurad/auth.guard";
 import { TokenService } from "./token-service/token.service";
 import { Module } from "@nestjs/common";
@@ -11,9 +11,8 @@ import { StlMeasuresService } from "./stl-measures-service/stlmeasures.service";
 require('dotenv').config()
 @Module({
     imports: [ServeStaticModule.forRoot({
-        rootPath: resolve(__dirname, './produto_personalizado/Uploads'),
+        rootPath: path.join(__dirname,'../Uploads'),
         // rootPath: process.env.upload_location,
-
       }),
       TypeOrmModule.forRoot({
         type: "mssql",

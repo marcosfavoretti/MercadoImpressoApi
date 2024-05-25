@@ -39,7 +39,7 @@ export class Produto_personalizadoController {
   @UseInterceptors(FileInterceptor('file', {
     storage: diskStorage({
       destination: (req, file, cb) => {
-        const uploadPath = resolve(__dirname, './Uploads');
+        const uploadPath = resolve(__dirname, '../../Uploads');
         // const uploadPath = process.env.upload_location;
 
         if (!existsSync(uploadPath)) {
